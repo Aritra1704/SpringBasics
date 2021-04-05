@@ -3,23 +3,33 @@
 
 <beans default-init-method="myInit" default-destroy-method="cleanup">
 	
-	<bean id="triangle" class="org.arpaul.javabrains.Triangle" >
+	<!-- <bean id="triangle" class="org.arpaul.javabrains.Triangle" >
 		<property name="pointA" ref="pointA" />
 		<property name="pointB" ref="pointB" />
 		<property name="pointC" ref="pointC" />
+	</bean> -->
+	
+	<bean id="circle" class="org.arpaul.javabrains.Circle" >
+		<property name="center" ref="pointA" />
 	</bean>
 	
 	<bean id="pointA" class="org.arpaul.javabrains.Point">
-		<property name="x" value="0" />
-		<property name="y" value="0" />
+		<property name="x" value="${pointA.pointX}" />
+		<property name="y" value="${pointA.pointY}" />
 	</bean>
-	<bean id="pointB" class="org.arpaul.javabrains.Point">
+	<!-- <bean id="pointB" class="org.arpaul.javabrains.Point">
 		<property name="x" value="-20" />
 		<property name="y" value="0" />
 	</bean>
 	<bean id="pointC" class="org.arpaul.javabrains.Point">
 		<property name="x" value="20" />
 		<property name="y" value="0" />
-	</bean>
+	</bean> -->
 	
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<!-- <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" /> -->
+	<bean class="org.arpaul.javabrains.MyBeanFactoryPP" />
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+		<property name="locations" value="pointsconfig.properties"></property>
+	</bean>
 </beans>

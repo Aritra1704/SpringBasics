@@ -3,6 +3,9 @@ package org.arpaul.javabrains;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -14,9 +17,46 @@ public class DrawingApp {
 	public static void main(String[] args) {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 		context.registerShutdownHook();
-		Triangle triangle = (Triangle) context.getBean("triangle");
-		triangle.draw();
+//		Triangle triangle = (Triangle) context.getBean("triangle");
+//		triangle.draw();
+//		Circle circle = (Circle) context.getBean("circle");
+//		circle.draw();
+		
+		Shape shape = (Shape) context.getBean("circle");
+		shape.draw();
 	}
+	/*
+	 * To create autowired annotation
+	 * in spring.xml add <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	 * then add @Autowired annotation to the setter method, 
+	 * if similar beans are there then use alias
+	 */
+	/**
+	 * To verify all beans have been correctly declared in sprint.xml
+	 * Add <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+	 */
+	/*
+	 * Creating Bean factory post processor
+	 * In Spring.xml <bean class="org.arpaul.javabrains.MyBeanFactoryPP" />
+	 * Create a class implementing public class MyBeanFactoryPP implements BeanFactoryPostProcessor
+	 * 
+	 * To remove declaration of object or value in spring.xml create a .properties file
+	 * Map it in spring.xml this way
+	 * <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
+		<property name="locations" value="pointsconfig.properties"></property>
+	</bean>
+	And map the data this way
+	<bean id="pointA" class="org.arpaul.javabrains.Point">
+		<property name="x" value="${pointA.pointX}" />
+		<property name="y" value="${pointA.pointY}" />
+	</bean>
+	 */
+	/**
+	 * Attaching bean post processor
+	 * In spring.xml add a anew bean <bean class="org.arpaul.javabrains.DisplayNameBeanPostProcessor" />
+	 * Create the class and implement it as follows
+	 * DisplayNameBeanPostProcessor implements BeanPostProcessor
+	 */
 	/*
 	 * Attaching lifecycle methods for Bean
 	 * SOLUTION 1
